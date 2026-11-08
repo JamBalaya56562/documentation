@@ -45,6 +45,12 @@ Since Duplicati is intended to be used with remote systems, it will make a tempo
 
 To change this logic to instead use the operating system `move`command to move the file into place, avoiding a copy, set the option `--use-move-for-put`, on the file backend and also set `--disable-streaming-transfers`. With these two options, all special handling will be removed and the transfer speed should be the optimal possible with the current operating system. Note that setting `--disable-streaming-transfers`will not show any progress during transfers, if you are using the UI, because the underlying copy or move method cannot be monitored.
 
+### Linking files instead of copying them on download
+
+When Duplicati reads a file from the destination, for example to compact or restore, it copies the file to the temporary folder first. With large volumes on a local disk this copy can take a long time. If the temporary folder is on the same volume as the destination, set `--use-hardlink-for-get` on the file backend to create a hard link instead of the copy. If the link cannot be created, for example because the two folders are on different volumes, the file is copied as before.
+
+The link shares its contents with the stored file, so this option also turns off streaming transfers for the destination, as `--use-move-for-put` does.
+
 ### Disabling length verification
 
 Because a local storage destination is expected to have a very low latency, the file backend will verify the length of the file after copy. This additional call is usually very fast and does not impact transfers speeds, but can be disabled for slightly faster uploads with `--disable-length-verification`.
