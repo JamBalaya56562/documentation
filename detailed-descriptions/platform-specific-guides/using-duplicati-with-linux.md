@@ -180,3 +180,15 @@ By default, Duplicati will honor Linux advisory locking and refuse to open files
 ```
 --ignore-advisory-locking=true
 ```
+
+## Staying on one file system
+
+If you back up a folder such as `/`, Duplicati also goes into the disks, network shares and virtual file systems, such as `/proc`, that are mounted below it. To stay on the file systems of the source folders, like `rsync --one-file-system`, set the advanced option:
+
+```
+--one-file-system=true
+```
+
+Duplicati then lists the mount points when the backup starts, and leaves out every folder below a source folder where another file system is mounted, together with its contents. The folder itself is left out as well, where `rsync` keeps it as an empty folder. A source folder is always included, even when it is a mount point itself. The option also works on macOS.
+
+On Windows the option leaves out volumes that are mounted in a folder. Such a folder is otherwise stored as a link without its contents, unless `--symlink-policy` is set to `Follow`.
