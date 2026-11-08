@@ -63,3 +63,7 @@ Duplicati lists the files on the server with a WebDAV `PROPFIND` request. If the
 * `--use-extended-propfind=true` sends a request body that explicitly asks for all properties, instead of an empty body. This is required for some servers.
 * `--use-legacy-parsing=true` uses the older logic to read the file names from the response. The current logic already falls back to the older logic for names it cannot read, so this is only needed if the current logic returns wrong names.
 * `--debug-propfind-file=<path>` writes the response from the server to the given file, which is useful when reporting a problem with the listing. The file is overwritten on each listing.
+
+## Keeping file times in a sync
+
+A [sync job](../../detailed-descriptions/configuration-and-management/sync-jobs.md) uploads the files in their original form, but the server gives each file the time of the upload. With `--sync-keep-modification-time=true` Duplicati sends the modification time of the local file in the `X-OC-Mtime` header, which Nextcloud, ownCloud and compatible servers use as the time of the file. Other servers ignore the header. The header carries the time in whole seconds.
