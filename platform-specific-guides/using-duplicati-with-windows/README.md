@@ -27,6 +27,18 @@ If you are in doubt, you can try the x64 version, or use [Microsofts guide for d
 
 Once you have decided the on package you want, you are ready to download the package. The default version shown on the main [download page](https://duplicati.com/download) is the x64 GUI version in `.msi` format. The full list of packages can be obtained via the main [download page](https://duplicati.com/download), and then clicking "Other versions".
 
+### Starting Duplicati at logon for one user
+
+The MSI installs Duplicati for every user of the computer, so the startup shortcut goes into the Startup folder that all users share, and Duplicati starts for everyone who logs on. To start it only for the user who installs it, check "Only for the current user, not for every user of this computer" below "Launch Duplicati at system startup" in the installer. The installer then writes a `Run` entry for that user in the registry instead of the shared shortcut.
+
+For an unattended installation, pass the property on the command line:
+
+```
+msiexec /i Duplicati.msi /qn STARTUP_FOR_CURRENT_USER=1
+```
+
+An upgrade with the installer window keeps the choice. An unattended upgrade does not, so pass `STARTUP_FOR_CURRENT_USER=1` again.
+
 ## Using the TrayIcon
 
 For users with a desktop environment and no special requirements, the [TrayIcon](../../duplicati-programs/trayicon.md) instance is the recommended way to run Duplicati. If you are using the `.msi` package to install Duplicati, you will see an option to automatically start Duplicati, as well as create a shortcut on your desktop and in the start menu. If you need to manually start Duplicati, you can find the executable in:
